@@ -5,13 +5,24 @@ pipeline {
         stage('Example') {
             steps {
                 script {
-                    // Your Git-related steps here
+                     pipeline {
+                 
 
-                    // Assuming you want to run Docker commands within a Docker container
+                    // Use the 'node' block to allocate a workspace
                     node {
                         checkout scm
 
-                        // Your Docker-related steps here
+                                     agent {
+                                docker { image 'liquibase/liquibase:4.4.2' }
+                              }
+                              stages {
+                                stage('Test') {
+                                  steps {
+                                    sh 'liquibase --version'
+                                  }
+                                }
+                              }
+                            }
                         docker.image('liquibase/liquibase').run {
                             // Your steps inside the Docker container
                             sh 'echo "Hello from Docker"'
