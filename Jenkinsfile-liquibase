@@ -1,12 +1,17 @@
 pipeline {
-  agent {
-    docker { image 'liquibase/liquibase' }
-  }
-  stages {
-    stage('Test') {
-      steps {
-        sh 'liquibase --version'
-      }
+    agent any  // Or you can use 'agent none' or 'agent { label "your_label" }'
+
+    stages {
+        stage('Example') {
+            steps {
+                script {
+                    // Your Docker-related steps here
+                    docker.image('liquibase/liquibase').run {
+                        // Your steps inside the Docker container
+                        sh 'echo "Hello from Docker"'
+                    }
+                }
+            }
+        }
     }
-  }
 }
