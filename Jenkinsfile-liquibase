@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script {
                     // Run Liquibase update without a database connection
-                    sh "${LIQUIBASE_HOME}/liquibase --changeLogFile=your-changelog-file.xml updateSQL"
+                    sh "${LIQUIBASE_HOME}/liquibase --changeLogFile=schema.sql updateSQL"
                 }
             }
         }
