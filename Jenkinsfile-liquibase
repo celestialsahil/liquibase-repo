@@ -1,48 +1,12 @@
 pipeline {
-    agent any
-
-    environment {
-        LIQUIBASE_VERSION = '4.17.2'  // Set the Liquibase version
-        LIQUIBASE_HOME = tool 'liquibase-${LIQUIBASE_VERSION}'  // Specify Liquibase tool installation
+  agent {
+    docker { image 'liquibase/liquibase:4.4.2' }
+  }
+  stages {
+    stage('Test') {
+      steps {
+        sh 'liquibase --version'
+      }
     }
-
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Install Liquibase') {
-            steps {
-                script {
-                    // Install Liquibase tool
-                    def mvnHome = tool 'Maven'
-                    def liquibaseUrl = "https://github.com/liquibase/liquibase/releases/download/v${LIQUIBASE_VERSION}/liquibase-${LIQUIBASE_VERSION}.tar.gz"
-                    
-                    sh """
-                        wget ${liquibaseUrl}
-                        tar -zxvf liquibase-${LIQUIBASE_VERSION}.tar.gz
-                        rm -f liquibase-${LIQUIBASE_VERSION}.tar.gz
-                        chmod +x ${LIQUIBASE_HOME}/liquibase
-                    """
-                }
-            }
-        }
-
-        stage('Run Liquibase Update') {
-            steps {
-                script {
-                    // Run Liquibase update without a database connection
-                    sh "${LIQUIBASE_HOME}/liquibase --changeLogFile=schema.sql updateSQL"
-                }
-            }
-        }
-    }
-
-  //  post {
-    //    always {
-            // Clean up if necessary
-      //  }
-   // }
+  }
 }
