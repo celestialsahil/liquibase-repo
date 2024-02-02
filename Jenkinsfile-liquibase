@@ -5,12 +5,12 @@ pipeline {
   stages {
     stage('Status') {
       steps {
-        sh 'liquibase status --url="jdbc:mysql://34.93.119.220:3306/test1" --changeLogFile=file.xml --username=root'
+        sh 'liquibase status --url="jdbc:mysql://34.93.119.220:3306/test1" --changeLogFile=change.xml --username=root'
       }
     }
     stage('Update') {
       steps {
-        sh 'liquibase update --url="jdbc:mysql://34.93.119.220:3306/test1" --changeLogFile=file.xml --username=root'
+        sh 'liquibase update --url="jdbc:mysql://34.93.119.220:3306/test1" --changeLogFile=change.xml --username=root'
       }
     }
   }
